@@ -67,3 +67,34 @@ print(isinstance(nombre, str))  # Resultado: True
 print(isinstance(edad, (int, float)))  # Resultado: True si es al menos uno.
 
 
+# 5. Cadenas:
+#   En python da igual que uses comillas simples o dobles para definir una cadena de texto.
+#   Para definir una cadena de texto que contenga comillas simplemente usas la contraria.
+
+#   - in devuelve un booleano indicando si la cadena de texto contiene o no la subcadena.
+cadena1 = 'Hola, mundo'
+print('Hola' in cadena1)  # Resultado: True
+
+#   - len() devuelve la longitud de la cadena de texto.
+print(len(cadena1))  # Resultado: 11
+
+#   - indices:
+#     Los índices comienzan en 0, por lo que el primer carácter de la cadena tiene índice 0, el segundo carácter tiene índice 1, y así sucesivamente.
+print(cadena1[0])  # Resultado: 'H'
+print(cadena1[1:5])  # Resultado: 'Hola'
+#   - indices negativos:
+print(cadena1[-1])  # Resultado: 'o'
+print(cadena1[-5:-1])  # Resultado: 'mundo'
+
+#   - las cadenas de texto son inmutables, lo que significa que no se pueden cambiar una vez creadas. Si deseas modificar una cadena, debes crear una nueva.
+#   - las comillas triples permiten escribir cadenas de texto en varias líneas.
+#   - puedes aplicar operadores matematicos para concatenar cadenas de texto, como el operador + para concatenar y el operador * para repetir. Pero debes asegurarte de que ambos operandos sean cadenas de texto, de lo contrario obtendrás un error.
+#   - puedes usar el método .format() para insertar valores en una cadena de texto. Por ejemplo:
+#   - str() convierte un valor a cadena de texto.
+nombre = "Juan"
+cadena_con_nombre = "Hola, {}".format(nombre)
+print(cadena_con_nombre)  # Resultado: "Hola, Juan"
+#   - f-strings (disponibles a partir de Python 3.6) permiten insertar valores directamente en la cadena de texto usando llaves {}. Por ejemplo:
+
+cadena_con_nombre = f"Hola, {nombre}"
+print(cadena_con_nombre)  # Resultado: "Hola, Juan"
