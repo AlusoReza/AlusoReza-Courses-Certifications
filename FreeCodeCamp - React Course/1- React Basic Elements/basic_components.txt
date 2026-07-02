@@ -1,0 +1,43 @@
+We can work with class or function components, that are made by elements.
+Elements are the smallest building blocks of React applications. They describe what you want to see on the screen.
+
+-   Function basic form:
+
+        function Saludo(props) {
+            return <h1> Hoola {props.nombre} </h1>
+        }
+
+        -   We see js and html are mixed.
+        -   props are properties
+        -   function name always start at upper case.
+
+-   Class basic form:
+
+        class Saludo extends React.Component {
+            render() {
+                return <h1> Hoola {this.props.nombre} </h1>;
+            }
+        }
+
+        -   We see js and html are mixed.
+        -   props are properties
+        -   class name always start at upper case.
+        -   render() method is always required in class elements. It shows the html code.
+        -   You define methods in class elements, but not in function elements.
+
+JS and html are mixed because React uses JSX, which allows us to write HTML-like syntax in JavaScript. This makes it easier to create and manage UI components.
+Using JSX is not required, but it is highly recommended as it makes the code more readable and easier to understand.
+
+Using JSX permits to creates any elements using the syntax of HTML, but it is not HTML. It is a syntax extension for JavaScript that allows us to write HTML-like code in our JavaScript files.
+    -   They are represented as JavaScript objects, which can be rendered to the DOM using ReactDOM.
+    -   They are written in lowercase letters, while React components are written in uppercase letters.
+    -   You can add atributes to elements, just like in HTML. For example, you can add a className attribute to an element to apply CSS styles. But rather than using the class attribute, you use className in JSX because class is a reserved word in JavaScript.
+    -   In css you can use the class attribute to apply styles to elements, but in JSX you use className instead. This is because class is a reserved word in JavaScript, and using it as an attribute name would cause a syntax error. By using className, we can avoid this issue and still apply styles to our elements.
+        -   Any word like background-color in css, in JSX is written as backgroundColor. This is because JSX uses camelCase for attribute names instead of kebab-case. This means that any multi-word attribute names are written in camelCase, with the first letter of each word capitalized except for the first word. For example, instead of writing background-color, we write backgroundColor in JSX. This allows us to use JavaScript's naming conventions while still being able to apply styles to our elements.
+        -   You can define variables in JSX as DivOneStyle = { backgroundColor: 'blue', color: 'white' } and then use them in your elements like this: <div style={DivOneStyle}>Hello</div>. This allows you to define styles in a more dynamic way, and makes it easier to reuse styles across different components.
+
+
+
+
+
+

@@ -1,0 +1,47 @@
+/* This is the main CSS file for the React application. It contains styles for the App component and its child elements.*/
+/* The .App class centers the content of the application. */
+/* The .App-logo class defines the size and pointer events for the logo. */
+/* The @media query applies an animation to the logo if the user has not requested reduced motion. */
+/* The .App-header class styles the header section of the application, including background color, height, and text alignment. */
+/* The .App-link class styles the links in the application. */
+/* The @keyframes rule defines the spinning animation for the logo. */
+/* You usually edit this file to customize the look and feel of your React application. */
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
