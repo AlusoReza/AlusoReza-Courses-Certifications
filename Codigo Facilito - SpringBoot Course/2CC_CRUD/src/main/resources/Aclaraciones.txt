@@ -1,0 +1,68 @@
+/**
+ * =================================================================================
+ *   DOCUMENTACIÓN DE ARQUITECTURA: ESTRUCTURA DE RECURSOS Y VISTAS (MVC)
+ * =================================================================================
+ * 
+ * En Spring Boot, la carpeta 'src/main/resources' representa el núcleo de la capa
+ * de presentación y configuración. El framework opera bajo el principio de 
+ * "Convención sobre Configuración", lo que significa que el nombre y la ubicación
+ * de cada carpeta activan comportamientos automáticos en el servidor.
+ * 
+ * A continuación, se detalla el propósito y la función de cada componente visualizado:
+ * 
+ * ---------------------------------------------------------------------------------
+ * 1. LA CARPETA 'static' (Recursos Estáticos Inmutables)
+ * ---------------------------------------------------------------------------------
+ *   Los archivos alojados en esta carpeta se sirven directamente al navegador web 
+ *   del cliente sin ser procesados ni alterados por el servidor.
+ * 
+ *   - css/styles.css: 
+ *     Hoja de estilos globales. Define el diseño visual de la interfaz web, 
+ *     las tarjetas de las películas, tipografías, colores y la disposición estética.
+ * 
+ *   - js/scripts.js:
+ *     Archivo de JavaScript del lado del cliente. Añade interactividad local a la 
+ *     página, como animaciones, confirmaciones de borrado o validaciones visuales 
+ *     rápidas antes de enviar un formulario al backend.
+ * 
+ * ---------------------------------------------------------------------------------
+ * 2. LA CARPETA 'templates' (Vistas Dinámicas del Servidor - Thymeleaf)
+ * ---------------------------------------------------------------------------------
+ *   Es el directorio obligatorio donde el motor de plantillas Thymeleaf busca los
+ *   archivos cuando un controlador retorna un String (ej: return "home";) [0;32]. 
+ *   El servidor lee estos HTML, procesa las variables de Java y genera un HTML final.
+ * 
+ *   A. Subcarpeta 'layouts' (Modularización y Reutilización de Código):
+ *      Implementa el principio DRY (Don't Repeat Yourself) para evitar duplicar código.
+ *      - head.html: Contiene la cabecera técnica oculta (metadatos, juego de caracteres 
+ *        UTF-8, el título dinámico y la importación de las hojas de estilos CSS).
+ *      - header.html: Contiene la barra de navegación superior visual (Navbar) con 
+ *        los enlaces de navegación del sistema para moverse por la aplicación.
+ * 
+ *   B. Vistas de Pantalla Completa:
+ *      - home.html: Cartelera principal. Recibe el objeto 'Page<Pelicula>' y renderiza
+ *        las películas en formato de cuadrícula (Grid), además de dibujar el componente 
+ *        visual de paginación ("Anterior", números de página, "Siguiente") [0;32].
+ *      - home2.html: Archivo de respaldo o entorno de pruebas ("sandbox") para ensayar 
+ *        cambios de diseño estructurales sin alterar la pantalla principal de producción.
+ *      - listado.html: Panel de administración. Muestra las películas en una tabla 
+ *        tabular clásica de datos con los botones de acción rápida para Editar y Eliminar.
+ *      - pelicula.html: Formulario web unificado de creación y edición. Enlaza el 
+ *        formulario al objeto mediante 'th:object', carga el menú desplegable (<select>) 
+ *        de géneros, los checkboxes de actores y gestiona el input de tipo archivo.
+ * 
+ * ---------------------------------------------------------------------------------
+ * 3. CONFIGURACIÓN E INYECCIÓN DE DATOS RAÍZ
+ * ---------------------------------------------------------------------------------
+ *   - application.properties:
+ *     Centro de configuración global de Spring Boot. Define parámetros críticos como 
+ *     el puerto de red, credenciales de bases de datos, activación de la consola de H2, 
+ *     y la desactivación de la caché de Thymeleaf en entornos de desarrollo.
+ * 
+ *   - import.sql:
+ *     Script de inicialización de datos nativo de Hibernate. Al estar ubicado exactamente
+ *     en la raíz de 'resources', Spring lo ejecuta automáticamente en el microsegundo 
+ *     posterior a la creación de las tablas, poblando el sistema con actores y géneros 
+ *     iniciales para agilizar las pruebas de desarrollo.
+ * =================================================================================
+ */

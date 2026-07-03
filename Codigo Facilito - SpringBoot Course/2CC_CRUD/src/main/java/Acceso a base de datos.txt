@@ -1,0 +1,4 @@
+Para acceder:
+(localhost:8080)/h2-console
+
+Podremos ver toda la información que se ha guardado.

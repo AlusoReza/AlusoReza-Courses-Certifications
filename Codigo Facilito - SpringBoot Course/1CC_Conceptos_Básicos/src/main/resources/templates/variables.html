@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!-- 
+	Estructura base de la vista utilizando el motor de plantillas Thymeleaf.
+	Esta vista está mapeada desde 'IndexController.java'.
+	
+	Configuraciones clave aprendidas:
+	- Puerto por defecto: localhost:8080 (Modificable con 'server.port' en application.properties).
+	- Integración de Thymeleaf: Se activa mediante el atributo 'xmlns:th'.
+	- Renderizado dinámico: 'th:text' inyecta los atributos del 'Model' de Java y reemplaza el texto de prueba.
+-->
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <!-- El backend reemplazará el contenido de esta etiqueta con el atributo 'titulo' -->
+    <title th:text="${titulo}"></title>
+</head>
+<body>
+	<!-- Renderizado de texto dinámico: Inyecta el atributo 'saludo' enviado desde el modelo de Spring -->
+	<h1 th:text="${saludo}">Texto de marcador de posición (se reemplazará en el servidor)</h1>
+
+	<!-- Evaluación condicional (th:if): El elemento se renderiza en el DOM solo si la variable 'show' es verdadera (true) -->
+	<div th:if="${show}">
+	    Este texto es visible porque la condición 'show' es verdadera.
+	</div>
+
+	<!-- Iteración y bucles (th:each): Renderizado dinámico de colecciones y listas desde el controlador -->
+	<div>
+	    <h3>Listado de series disponibles:</h3>
+	    <ul>
+	        <!-- 
+	            Sintaxis de iteración: th:each="variableIndividual : ${colecciónDelModelo}"
+	            Recorre la lista 'series' y crea un elemento <li> por cada objeto mapeado en 'serie'.
+	        -->
+	        <ul th:each="serie : ${series}">
+	            <li th:text="${serie}">Nombre de la serie por defecto</li>
+	        </ul>
+	    </ul>
+	</div>
+
+	
+	
+	
+</body>
+</html>

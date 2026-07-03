@@ -1,0 +1,64 @@
+/**
+ * =================================================================================
+ *   DOCUMENTACIÓN DE ARQUITECTURA: CLASE PRINCIPAL DE ARRANQUE (BOOTSTRAPPING)
+ * =================================================================================
+ * 
+ * En el ecosistema de Spring Boot, la clase de arranque es el componente más crítico
+ * de la fase de inicialización. No solo actúa como el punto de entrada al programa,
+ * sino que define el comportamiento del cargador de clases y el alcance del escaneo
+ * de componentes de todo el backend.
+ * 
+ * ---------------------------------------------------------------------------------
+ * 1. LA META-ANOTACIÓN @SpringBootApplication
+ * ---------------------------------------------------------------------------------
+ *   Esta anotación es una "meta-anotación" que encapsula tres configuraciones 
+ *   esenciales de Spring Framework en una sola línea de código:
+ * 
+ *   A. @SpringBootConfiguration:
+ *      Indica que esta clase sirve como una fuente de configuración de Spring. 
+ *      Permite registrar beans adicionales en el contenedor mediante métodos 
+ *      anotados con @Bean si el proyecto lo requiere en el futuro.
+ * 
+ *   B. @EnableAutoConfiguration:
+ *      Activa el motor de autoconfiguración de Spring Boot. Examina las librerías 
+ *      declaradas en tu archivo 'pom.xml' (Maven) y autoconfigura los componentes. 
+ *      Por ejemplo, al detectar la dependencia de H2 y Spring Data JPA en tu log, 
+ *      esta anotación levanta de forma automática el pool de conexiones (HikariPool) 
+ *      y el motor ORM (Hibernate) sin que tú escribas una línea de código [0;32].
+ * 
+ *   C. @ComponentScan (Rastreador de Componentes):
+ *      Dispara el escaneo automático del proyecto [0;32]. Su comportamiento es estrictamente
+ *      jerárquico: toma el paquete donde reside esta clase (com.codigofacilito.peliculas) 
+ *      como la raíz, y rastrea hacia abajo de forma piramidal [0;32]. Registrará en memoria 
+ *      cualquier clase que use anotaciones como @Controller, @RestController, @Service, 
+ *      @Component o @Repository ubicadas en sus subpaquetes [0;32].
+ * 
+ * ---------------------------------------------------------------------------------
+ * 2. EL MÉTODO MAESTRO 'main' Y 'SpringApplication.run'
+ * ---------------------------------------------------------------------------------
+ *   - public static void main(String[] args):
+ *     Es el punto de inicio de la ejecución estándar de cualquier aplicación Java 
+ *     (Java Virtual Machine - JVM).
+ * 
+ *   - SpringApplication.run(PeliculasApplication.class, args):
+ *     Es el interruptor de encendido de todo el framework. Al ejecutarse, realiza
+ *     las siguientes acciones de ingeniería de software en milisegundos [0;32]:
+ *       1. Crea y arranca el ApplicationContext (el contenedor de inversión de control).
+ *       2. Ejecuta el escaneo de componentes y aloja los objetos (Beans) en memoria.
+ *       3. Inicializa y enciende el servidor web interno embebido (Apache Tomcat) 
+ *          en el puerto configurado (por defecto, el 8080) [0;32].
+ *       4. Expone los endpoints de los controladores web para empezar a escuchar 
+ *          peticiones HTTP de los usuarios.
+ * 
+ * ---------------------------------------------------------------------------------
+ * 3. REGLA DE ORO DE UBICACIÓN (DIAGNÓSTICO DEL ERROR 404)
+ * ---------------------------------------------------------------------------------
+ *   Si tu clase principal 'PeliculasApplication' se encuentra físicamente fuera o en 
+ *   una carpeta paralela a tus controladores o servicios, el rastreador (@ComponentScan) 
+ *   no los verá al arrancar [0;32]. 
+ *   
+ *   El servidor Tomcat encenderá con éxito en el puerto 8080 [0;32], pero no registrará 
+ *   ninguna URL (como '/home' o '/pelicula'), devolviendo un error 404 de forma indefinida.
+ *   La clase principal SIEMPRE debe estar en la raíz del paquete de código.
+ * =================================================================================
+ */

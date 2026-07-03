@@ -1,0 +1,106 @@
+/**
+ * =================================================================================
+ *   DOCUMENTACIÓN DE ARQUITECTURA: PROPÓSITO DE INTERFACES REPOSITORY "VACÍAS"
+ * =================================================================================
+ * 
+ * Como desarrollador, puede resultar contradictorio crear una interfaz que no posee
+ * métodos visibles en su cuerpo. Sin embargo, en el ecosistema de Spring Data JPA,
+ * esta declaración es un componente imperativo debido a los siguientes pilares:
+ * 
+ * ---------------------------------------------------------------------------------
+ * 1. PASO DE METADATOS MEDIANTE GENÉRICOS DE JAVA (<T, ID>)
+ * ---------------------------------------------------------------------------------
+ *   Las clases padre de Spring (como JpaRepository o CrudRepository) están programadas
+ *   utilizando tipos genéricos abstractos. Al declarar tu interfaz de la siguiente forma:
+ *   
+ *   public interface IPeliculaRepository extends JpaRepository<Pelicula, Long>
+ *   
+ *   Estás actuando como un configurador. Le estás indicando formalmente al framework
+ *   los dos datos indispensables que necesita para construir las consultas SQL por detrás:
+ *     - T (Entidad): 'Pelicula'. Le dice a Spring sobre qué tabla operar. Spring lee la
+ *       clase, busca su anotación @Table(name="peliculas") y sabe cómo estructurar los SQL.
+ *     - ID (Tipo de Clave Primaria): 'Long'. Le indica el tipo de dato de la @Id.
+ *   
+ *   Mágicamente, Spring toma estos dos parámetros y redefine los métodos invisibles heredados:
+ *     - save(T entity)    -> Se transforma en -> save(Pelicula pelicula)
+ *     - findById(ID id)   -> Se transforma en -> findById(Long id)
+ * 
+ * ---------------------------------------------------------------------------------
+ * 2. PROXIES DINÁMICOS Y GENERACIÓN DE CÓDIGO EN TIEMPO DE EJECUCIÓN
+ * ---------------------------------------------------------------------------------
+ *   Java no permite instanciar interfaces directamente (no puedes hacer 'new' de una interfaz).
+ *   Al arrancar la aplicación, Spring Boot realiza un escaneo de componentes (Component Scanning).
+ *   Al detectar tu interfaz, el framework utiliza un patrón de diseño avanzado llamado
+ *   "Proxy Dinámico". 
+ *   
+ *   Spring genera de forma automática en la memoria RAM una clase física oculta que implementa
+ *   tu interfaz, inyecta en ella todo el código JDBC/Hibernate necesario para conectarse a la
+ *   base de datos, crea un objeto único (Bean) de esa clase y lo aloja en su contenedor central.
+ *   Gracias a este archivo "vacío", el objeto existe en memoria y se habilita el uso de @Autowired.
+ * 
+ * ---------------------------------------------------------------------------------
+ * 3. CONTROL DE TIPADO FUERTE (COMPILACIÓN SEGURA)
+ * ---------------------------------------------------------------------------------
+ *   Java es un lenguaje de tipado estricto. Para poder invocar métodos en las capas superiores
+ *   (como en los servicios), necesitas una variable con un tipo de dato válido y verificado.
+ *   Crear esta interfaz define un nuevo tipo de dato en tu sistema ('IPeliculaRepository'),
+ *   permitiendo que tu IDE y el compilador validen que los métodos que vas a usar existen y
+ *   están libres de errores sintácticos antes de compilar el proyecto.
+ * 
+ * RESUMEN TÉCNICO:
+ *   La interfaz "vacía" actúa como una FICHA DE CONFIGURACIÓN y un PUNTO DE ANCLAJE.
+ *   Tú aportas la declaración del modelo mediante los genéricos, y Spring Data JPA aporta
+ *   el 100% de la implementación de forma transparente en memoria [0;32].
+ * =================================================================================
+ */
+ 
+ /**
+ * =================================================================================
+ *   DOCUMENTACIÓN DE INGENIERÍA: ABSTRACCIÓN DE RECURSOS CON UrlResource
+ * =================================================================================
+ * 
+ * Esta instrucción realiza la transición crítica entre el sistema de archivos del
+ * sistema operativo (Java NIO) y el ecosistema de abstracción de archivos de Spring.
+ * 
+ * Línea de Código: Resource resource = new UrlResource(rutaArchivo.toUri());
+ * 
+ * ---------------------------------------------------------------------------------
+ * 1. LA INTERFAZ 'Resource' (Polimorfismo de Archivos)
+ * ---------------------------------------------------------------------------------
+ *   'Resource' es una interfaz propia de Spring Framework (org.springframework.core.io.Resource).
+ *   Su objetivo es abstraer por completo el origen de un archivo [0;32]. No importa si el
+ *   archivo está en tu disco duro físico, dentro de un archivo .JAR empaquetado, o en 
+ *   un servidor en la nube; para Spring, todos se manejan exactamente igual [0;32]. 
+ *   Esto permite que tu controlador web reciba un 'Resource' genérico sin importarle 
+ *   la tecnología de almacenamiento subyacente.
+ * 
+ * ---------------------------------------------------------------------------------
+ * 2. LA CLASE CONCRETA 'UrlResource' Y EL PROTOCOLO URI
+ * ---------------------------------------------------------------------------------
+ *   - rutaArchivo.toUri():
+ *     Toma la ruta absoluta de tu computadora (ej: "F:/proyectos/archivos/avatar.jpg")
+ *     y la traduce a un formato de Identificador de Recurso Uniforme (URI) nativo de 
+ *     internet, anteponiendo el protocolo de archivos: "file:///F:/proyectos/...".
+ * 
+ *   - new UrlResource(...):
+ *     Es la implementación concreta encargada de abrir el canal de lectura hacia esa 
+ *     URI de archivo. Utiliza los controladores estándar de Java para cargar el recurso 
+ *     en memoria bajo demanda y de forma eficiente.
+ * 
+ * ---------------------------------------------------------------------------------
+ * 3. CONTROL DE EXCEPCIONES OBLIGATORIO
+ * ---------------------------------------------------------------------------------
+ *   El constructor de 'UrlResource' exige de forma estricta que envuelvas la línea 
+ *   dentro de un bloque try-catch que capture la excepción 'MalformedURLException'. 
+ *   Java obliga a esto porque, al trabajar con URIs/URLs, el compilador debe asegurarse 
+ *   de que la dirección construida no contenga caracteres inválidos o protocolos de 
+ *   internet imposibles de procesar para el sistema.
+ * 
+ * RESUMEN PARA EL JUNIOR:
+ *   Esta línea toma una ruta física de tu disco duro ('Path'), la transforma en una 
+ *   dirección entendible para la red ('URI') [0;32] y la envuelve en un objeto genérico 
+ *   de Spring ('Resource') [0;32] listo para ser enviado al navegador de internet y pintarse 
+ *   en tu plantilla de Thymeleaf [0;32].
+ * =================================================================================
+ */
+
