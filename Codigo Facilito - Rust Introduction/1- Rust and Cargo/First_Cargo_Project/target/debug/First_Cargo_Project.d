@@ -1,0 +1,1 @@
+F:\AlusoReza-Courses-Certifications\Codigo\ Facilito\ -\ Rust\ Introduction\1-\ Basic\ Concepts\ -\ Rust\ and\ Cargo\First_Cargo_Project\target\debug\First_Cargo_Project.exe: F:\AlusoReza-Courses-Certifications\Codigo\ Facilito\ -\ Rust\ Introduction\1-\ Basic\ Concepts\ -\ Rust\ and\ Cargo\First_Cargo_Project\src\main.rs
