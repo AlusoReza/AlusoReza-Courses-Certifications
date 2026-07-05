@@ -1,0 +1,46 @@
+# ----------------------------------
+# .dockerignore Genérico
+# ----------------------------------
+
+# Control de versiones
+.git
+.gitignore
+
+# Dependencias locales (Se instalan dentro del contenedor)
+node_modules/
+npm-debug.log
+yarn-error.log
+venv/
+env/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Variables de entorno y secretos (¡NUNCA copiar al contenedor!)
+.env
+.env.local
+.env.*
+*.pem
+secrets/
+credentials.json
+
+# Archivos compilados y builds locales
+dist/
+build/
+out/
+target/
+.next/
+.nuxt/
+
+# Logs del sistema
+logs/
+*.log
+
+# Archivos de editores de código (IDE) y SO
+.vscode/
+.idea/
+*.suo
+*.sln
+.DS_Store
+Thumbs.db

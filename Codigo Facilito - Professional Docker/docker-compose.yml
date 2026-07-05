@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # --- SERVICIO 1: Backend API ---
+  api:
+    build: 
+      context: ./backend          # Carpeta donde está tu Dockerfile
+      dockerfile: Dockerfile      # Nombre de tu archivo
+    container_name: mi_api_backend
+    restart: unless-stopped       # Se reinicia solo si no se detuvo manualmente
+    ports:
+      - "8080:3000"               # Mapeo: Puerto Host : Puerto Contenedor
+    environment:
+      - NODE_ENV=development
+      - DB_URL=postgres://user:pass@db:5432/mydb
+    depends_on:
+      - db                        # Espera a que la base de datos inicie
+    networks:
+      - app-network
+    volumes:
+      - ./backend:/usr/src/app    # Sincronización de código para desarrollo
+      - /usr/src/app/node_modules # Evita que los módulos locales sobrescriban los del contenedor
+
+  # --- SERVICIO 2: Base de Datos ---
+  db:
+    image: postgres:15-alpine
+    container_name: mi_base_datos
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: mydb
+    networks:
+      - app-network
+    volumes:
+      - db_data:/var/lib/postgresql/data # Persistencia de datos
+
+# --- DEFINICIÓN DE REDES Y VOLÚMENES ---
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db_data:                        # Volumen persistente externo
